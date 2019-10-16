@@ -1,4 +1,4 @@
-package com.tencent.am
+package org.cq.xposedwrapper
 
 open class AtomReplaceCallback {
 

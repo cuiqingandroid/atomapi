@@ -1,4 +1,4 @@
-package com.tencent.am;
+package org.cq.xposedwrapper;
 
 import android.content.pm.PackageInfo;
 import android.util.Log;
@@ -10,7 +10,6 @@ import com.tencent.cq.callbacks.LoadPackage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
@@ -84,7 +83,7 @@ class Loader {
         try {
             Class moduleClass = mcl.loadClass(moduleClassName);
             final Object moduleInstance = moduleClass.newInstance();
-            Object lpparam = Helper.findConstructorExact(Helper.findClass("com.tencent.am.LoadParam", mcl),
+            Object lpparam = Helper.findConstructorExact(Helper.findClass("LoadParam", mcl),
                     LoadPackage.LoadPackageParam.class).newInstance(param);
 
 //            if (!(moduleInstance instanceof LoaderInterface)) {

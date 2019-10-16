@@ -1,4 +1,4 @@
-package com.tencent.am
+package org.cq.xposedwrapper
 
 import android.util.Log
 import com.tencent.cq.Helper

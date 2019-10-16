@@ -1,4 +1,4 @@
-package com.tencent.am
+package org.cq.xposedwrapper
 
 /**
  * Created by shixiangyu on 2019-07-03.

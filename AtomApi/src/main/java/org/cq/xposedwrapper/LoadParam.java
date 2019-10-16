@@ -1,4 +1,4 @@
-package com.tencent.am;
+package org.cq.xposedwrapper;
 import android.content.pm.ApplicationInfo;
 
 import com.tencent.cq.callbacks.LoadPackage;
