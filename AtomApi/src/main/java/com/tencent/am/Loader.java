@@ -10,13 +10,12 @@ import com.tencent.cq.callbacks.LoadPackage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
 
 class Loader {
-    private static final String TAG = "atom";
+    private static final String TAG = "Atom";
     private static final String INSTANT_RUN_CLASS = "com.android.tools.fd.runtime.BootstrapApplication";
 
     public static void handleLoadPackage(LoadPackage.LoadPackageParam lpparam, String pluginPackageName) {
@@ -79,33 +78,29 @@ class Loader {
 
         closeSilently(dexFile);
 
-        ClassLoader mcl = new PathClassLoader(apk, At.BOOTCLASSLOADER);
+
+        ClassLoader pluginClassloader = new PathClassLoader(apk, At.BOOTCLASSLOADER);
 
         try {
-            Class moduleClass = mcl.loadClass(moduleClassName);
+            Class<?> moduleClass = pluginClassloader.loadClass(moduleClassName);
             final Object moduleInstance = moduleClass.newInstance();
-            Object lpparam = Helper.findConstructorExact(Helper.findClass("com.tencent.am.LoadParam", mcl),
-                    LoadPackage.LoadPackageParam.class).newInstance(param);
+            Class<?> clzParam = pluginClassloader.loadClass("com.tencent.am.LoadParam");
+            Object lpparam = clzParam.getConstructor(LoadPackage.LoadPackageParam.class).newInstance(param);
 
-//            if (!(moduleInstance instanceof LoaderInterface)) {
-//                Log.e(TAG, "This plugin should contain class " +pluginPackageName+".xpapi.Loader who implement LoadInterface");
-//                return;
-//            }
-//            ((LoaderInterface)moduleInstance).handleLoadPackage(lpparam);
-//            Log.e(TAG, "  Loading class lpclass "+ lpparam.getClass());
-//            Log.e(TAG, "  Loading class "+ moduleClassName+" methods " + Arrays.toString(moduleClass.getDeclaredMethods()));
-            Method entryMethod = Helper.findMethodExactIfExists(moduleClass, "handleLoadPackage", lpparam.getClass());
-            if (entryMethod == null) {
+            Log.i(TAG, "  Loading plugin class entry "+ moduleClass.getName());
+            try {
+                Method method = moduleClass.getDeclaredMethod("handleLoadPackage", clzParam);
+                method.setAccessible(true);
+                method.invoke(moduleInstance, lpparam);
+            } catch (Helper.ClassNotFoundError | NoSuchMethodError e) {
                 Log.e(TAG, "This plugin should contain class " +pluginPackageName+".xpapi.Loader who implement LoadInterface");
-//                return;
             }
-
-//            Object moduleInstance = moduleClass.newInstance();
-            Helper.callMethod(moduleInstance, "handleLoadPackage", lpparam);
 
         } catch (Throwable t) {
             Log.e(TAG, "    Failed to load class "+moduleClassName, t);
         }
 
     }
+
+
 }

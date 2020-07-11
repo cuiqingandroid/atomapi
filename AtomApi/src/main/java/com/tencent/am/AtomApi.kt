@@ -157,6 +157,13 @@ object AtomApi {
     }
 
     /**
+     * 调用原始方法
+     */
+    fun invokeOriginal(member: Member, obj: Any?, args : Array<Any?>) : Any?{
+        return At.invokeOriginalMethod(member, obj, args)
+    }
+
+    /**
      * 查找并hook方法
      */
     fun findAndProcess(className: String,classLoader: ClassLoader?, methodName: String, vararg objects: Any?) {

@@ -39,8 +39,8 @@ repositories {
 
 def libname = 'atomapi'
 def libdesc = 'custom xposed framework wrapper'
-version = "1.0.2"
-group = "org.cq.xposedwrapper"
+version = "lastest"
+group = "com.tencent.am"
 
 //生成源文件
 task sourcesJar(type: Jar) {
@@ -115,9 +115,9 @@ bintray {
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
-        repo = "maven"
-        name = "xposedwrapper"    //发布到JCenter上的项目名字，必须填写
-        desc = "custom xposed framework wrapper"    //项目描述
+        repo = "maven"      // mave仓库名字,可以不用这个名字
+        name = "atomapi"    //发布到JCenter上的项目名字，必须填写
+        desc = "atom xposed frameword with tencent package lib"    //项目描述
         websiteUrl = "https://github.com/cuiqingandroid/atomapi"
         vcsUrl = "https://github.com/cuiqingandroid/atomapi"
         licenses = ["Apache-2.0"]
