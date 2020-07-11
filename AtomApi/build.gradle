@@ -37,8 +37,7 @@ repositories {
 }
 
 
-def libname = 'atomapi'
-def libdesc = 'custom xposed framework wrapper'
+def myartifactId = 'xposed'
 version = "lastest"
 group = "com.tencent.am"
 
@@ -83,12 +82,10 @@ install {
         pom {
             project {
                 packaging "aar"
-                name libname
-                artifactId "tencent"
+                artifactId myartifactId
                 url "https://github.com/cuiqingandroid/atomapi"
                 licenses {
                     license {
-                        name libname
                         url "https://github.com/cuiqingandroid/atomapi"
                     }
                 }
@@ -114,10 +111,11 @@ bintray {
     user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
+    override = true
     pkg {
         repo = "maven"      // mave仓库名字,可以不用这个名字
-        name = "atomapi"    //发布到JCenter上的项目名字，必须填写
-        desc = "atom xposed frameword with tencent package lib"    //项目描述
+        name = "xpsoed"    //发布到JCenter上的项目名字，必须填写
+        desc = "xposed framework with tencent package lib"    //项目描述
         websiteUrl = "https://github.com/cuiqingandroid/atomapi"
         vcsUrl = "https://github.com/cuiqingandroid/atomapi"
         licenses = ["Apache-2.0"]
